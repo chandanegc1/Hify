@@ -1,4 +1,5 @@
 import User from "../module/user.js"
+import { ErrorHandler } from "../utils/ErrorHndler.js";
 import { hashPasswordFun } from "../utils/hashPassword.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -6,13 +7,42 @@ import jwt from "jsonwebtoken";
 export const Registration = async(req , res)=>{
     try {
         const {name , DOB , gender , email , password } = req.body;
+        let user = await User.findOne({email});
+
+        if(user){
+            return res
+            .status(400)
+            .json({
+                success: false,
+                message: "user alreasy exist",
+            });
+        }
+
         const hashpassword =await hashPasswordFun(password);
-        const user = await User({name , DOB , gender , email , password:hashpassword });
+        user = await User({name , DOB , gender , email , password:hashpassword, 
+                avatar:{
+                   public_id:"sample_id" ,
+                   url:"sampleurl",
+                }
+              });
         user.save();
-        res.status(200).json({success:true , data:user});
+
+        const token = jwt.sign({ _id : user._id} , "process.env.JWT_SECRET");
+        const options = {
+            expires: new Date(Date.now()+90*24*60*60*1000),
+            httpOnly: true
+        }
+        res.status(201).cookie("token" , token , options)
+        .json({
+            success:true,
+            user,
+            token
+        });
     } catch (error) {
-        console.log(error)
-        res.status(200).json({msg:error});
+      res.status(501).json({
+        success:false ,
+        message:error.message
+    });
     }
 }
 

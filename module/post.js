@@ -6,20 +6,25 @@ const PostSchema = new mongoose.Schema({
     },
     post:{
         type:String,
-        require:true
+        required:true
+    },
+    image:{
+        public_id:String,
+        url:String
     },
     createdAt:{
         type:Date,
         default:Date.now,
     },
-    userName:{
+    owner:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
+        ref:"user",
     },
     likes:[
         {
-            userId:{
-                type:String
+            userName:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:"user"
             },
             createdAt:{
                 type:Date,
@@ -29,9 +34,9 @@ const PostSchema = new mongoose.Schema({
     ],
     comments:[
         {
-            user:{
+            userName:{
                 type:mongoose.Schema.Types.ObjectId,
-                ref:"user",
+                ref:"user"
             },
             comment:{
                 type:String,
@@ -40,6 +45,9 @@ const PostSchema = new mongoose.Schema({
             createdAt:{
                 type:Date,
                 default:Date.now,
+            },
+            like:{
+                type:Number
             }
         }
     ]
