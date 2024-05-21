@@ -103,6 +103,10 @@ export const logout = async(req , res)=>{
 export const getUserPrfl = async (req , res)=>{
   try {
       const user = await User.findById(req.params.id);
+<<<<<<< HEAD
+=======
+      
+>>>>>>> e6abdd3a8607a6d682c95e2f70a7619585c07142
       if(!user){
          return res.status(401).json({
              success:false,
