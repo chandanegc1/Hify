@@ -83,7 +83,7 @@ export const updatecaption = async (req, res) => {
         message: error.message,
       });
     }
-  };
+};
 
 export const likeunlikepost = async (req, res) => {
     try {
@@ -120,9 +120,9 @@ export const likeunlikepost = async (req, res) => {
         message: error.message,
       });
     }
-  };
+};
 
-  export const followUnfollow = async (req, res) => {
+export const followUnfollow = async (req, res) => {
     try {
       const userToFollow = await User.findById(req.params.id);
       const loggedInUser = await User.findById(req.user._id);
@@ -166,9 +166,9 @@ export const likeunlikepost = async (req, res) => {
         message: error.message,
       });
     }
-  };
+};
 
-  export const getPostFollowing = async (req, res) => {
+export const getPostFollowing = async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
   
@@ -188,9 +188,9 @@ export const likeunlikepost = async (req, res) => {
         message: error.message,
       });
     }
-  };
-  
-  export const addcomment = async (req, res) => {
+};
+
+export const addcomment = async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
   
@@ -236,9 +236,9 @@ export const likeunlikepost = async (req, res) => {
         message: error.message,
       });
     }
-  };
+};
 
-  export const deleteComment = async (req, res) => {
+export const deleteComment = async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
   
@@ -281,20 +281,4 @@ export const likeunlikepost = async (req, res) => {
         message: error.message,
       });
     }
-  };
-
-export const LikeComment = async(req , res)=>{
-    try {
-        
-    } catch (error) {
-        
-    }
-}
-
-export const DislikeComment = async(req , res)=>{
-    try {
-        
-    } catch (error) {
-        
-    }
-}
+};

@@ -1,5 +1,5 @@
+import Post from "../module/post.js";
 import User from "../module/user.js"
-import { ErrorHandler } from "../utils/ErrorHndler.js";
 import { hashPasswordFun } from "../utils/hashPassword.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -100,6 +100,73 @@ export const logout = async(req , res)=>{
   }
 }
 
+export const getUserPrfl = async (req , res)=>{
+  try {
+      const user = await User.findById(req.params.id);
+      if(!user){
+         return res.status(401).json({
+             success:false,
+             message:"user not found",
+         })
+      }
+      res.status(200).json({
+          success:true,
+          user,
+      });
+  } catch (error) {
+      res.status(501).json({
+          success:false,
+          message:error.message,
+      })
+  }
+}
+
+export const getAllUser = async (req , res)=>{
+  try {
+      const users = await User.find({});
+
+      res.status(200).json({
+          success:true,
+          users,
+      });
+
+  } catch (error) {
+      res.status(501).json({
+          success:false,
+          message:error.message,
+      })
+  }
+}
+
+export const updateUserPrfl = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user.userId});
+    const { name, email, password, gender } = req.body;
+    if (name) {
+      user.name = name;
+    }
+    if (email) {
+      user.email = email;
+    }
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      password = await bcrypt.hash(password , salt);
+      user.password = password;
+    }
+    if (gender) {
+      user.gender = gender;
+    }
+    await user.save();
+    user.password = "null";
+    res.status(200).json({user, msg:"update successfully.."});
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const deleteuser = async (req , res)=>{
   try {
       const user = await User.findById(req.user._id);
@@ -142,60 +209,4 @@ export const deleteuser = async (req , res)=>{
           message:error.message,
       })
   }
-}
-
-  export const currentUser = async(req , res)=>{
-    try {
-      const user = await User.findOne({_id:req.user.userId});
-      user.password = "null";
-      res.status(200).json({user});
-    } catch (error) {
-      res.status(400).json({msg:"something went wrong"}); 
-    }
-  }
-
-  export const updateUserPrfl = async (req, res) => {
-    try {
-      const user = await User.findOne({ _id: req.user.userId});
-      const { name, email, password, gender } = req.body;
-      if (name) {
-        user.name = name;
-      }
-      if (email) {
-        user.email = email;
-      }
-      if (password) {
-        const salt = await bcrypt.genSalt(10);
-        password = await bcrypt.hash(password , salt);
-        user.password = password;
-      }
-      if (gender) {
-        user.gender = gender;
-      }
-      await user.save();
-      user.password = "null";
-      res.status(200).json({user, msg:"update successfully.."});
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-
-  export const getAllUser = async (req , res)=>{
-    try {
-        const users = await User.find({});
-
-        res.status(200).json({
-            success:true,
-            users,
-        });
-
-    } catch (error) {
-        res.status(501).json({
-            success:false,
-            message:error.message,
-        })
-    }
 }
