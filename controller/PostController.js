@@ -283,14 +283,6 @@ export const likeunlikepost = async (req, res) => {
     }
   };
 
-export const EditComment = async(req , res)=>{
-    try {
-        
-    } catch (error) {
-        
-    }
-}
-
 export const LikeComment = async(req , res)=>{
     try {
         
