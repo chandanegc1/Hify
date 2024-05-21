@@ -66,7 +66,7 @@ export const login = async (req , res)=>{
           });
       }
 
-      const token = jwt.sign( { _id : loginUser._id} , "process.env.JWT_SECRET" );
+      const token = jwt.sign( { userId : loginUser._id , userName: loginUser.name , email:loginUser.email} , "process.env.JWT_SECRET" );
       const options = {
           expires: new Date( Date.now() + 90 * 24 * 60 * 60 * 1000 ),
           httpOnly: true,
