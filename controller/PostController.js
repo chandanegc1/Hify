@@ -227,7 +227,7 @@ export const addcomment = async (req, res) => {
         });
       } else {
         post.comments.push({
-          user: req.user.userId,
+          userName: req.user.userId,
           comment: req.body.comment,
         });
         await post.save();
@@ -256,22 +256,24 @@ export const deleteComment = async (req, res) => {
         });
       }
   
+      console.log(String(post.owner) ===String(req.user.userId))
       if (String(post.owner) === String(req.user.userId)) {
-        if (req.body.comment_id == undefined) {
-          return res.status(401).json({
-            success: false,
-            message: "comment id required",
-          });
-        }
+        // if (req.body.comment_id == undefined) {
+        //   return res.status(401).json({
+        //     success: false,
+        //     message: "comment id required",
+        //   });
+        // }
   
         post.comments.forEach((item, index) => {
           if (String(item._id) === String(req.body.id)) {
+            console.log(item._id)
             return post.comments.splice(index, 1);
           }
         });
       } else {
         post.comments.forEach((item, index) => {
-          if (String(item.user) === String(req.user.userId)) {
+          if (String(item.userName) === String(req.user.userId)) {
             return post.comments.splice(index, 1);
           }
         });
