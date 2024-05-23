@@ -1,5 +1,5 @@
-import Post from "../module/post.js";
-import User from "../module/user.js"
+import Post from "../model/post.js";
+import User from "../model/user.js"
 import { hashPasswordFun } from "../utils/hashPassword.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -140,8 +140,8 @@ export const getAllUser = async (req , res)=>{
 
 export const updateUserPrfl = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.user.userId});
-    const { name, email, password, gender } = req.body;
+    let user = await User.findOne({ _id: req.user.userId});
+    let { name, email, password, gender } = req.body;
     if (name) {
       user.name = name;
     }
@@ -169,7 +169,7 @@ export const updateUserPrfl = async (req, res) => {
 
 export const deleteuser = async (req , res)=>{
   try {
-      const user = await User.findById(req.user._id);
+      const user = await User.findById(req.user.userId);
       const posts = user.posts; 
       const followers = user.followers;
       const following = user.following;
@@ -183,19 +183,16 @@ export const deleteuser = async (req , res)=>{
       
       for(let i = 0 ; i < followers.length ;i++){
           const follower = await User.findById(followers[i]);
-
           const index = follower.following.indexOf(user_id);
           follower.following.splice(index , 1);
           await follower.save();
-
       }
+
       for(let i = 0 ; i < following.length ;i++){
           const follows = await User.findById(following[i]);
-
           const index = follows.followers.indexOf(user_id);
           follows.followers.splice(index , 1);
           await follows.save();
-
       }
 
       res.status(200).cookie("token" ,null ,{expires: new Date(Date.now()) , httpOnly:true}).json({
@@ -209,4 +206,18 @@ export const deleteuser = async (req , res)=>{
           message:error.message,
       })
   }
+} 
+
+export const getCurrentUser = async(req , res)=>{
+    try {
+        const user = await User.findById(req.user.userId);
+        res.status(200).json({
+            user:user
+        });
+    } catch (error) {
+        res.status(501).json({
+            success:false,
+            message:error.message,
+        })
+    }
 }

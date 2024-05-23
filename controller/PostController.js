@@ -1,13 +1,13 @@
-import Post from "../module/post.js";
-import User from "../module/user.js";
+import Post from "../model/post.js";
+import User from "../model/user.js";
 
 export const PostCreate = async (req, res) => {
     try {
         const { caption, post, userName } = req.body;
-        const postData = new Post({ caption, post, userName , owner:req.user._id });
-        await postData.save();
-        const user = await User.findById(req.user._id);
-        user.posts.push(post._id);
+        const postData = new Post({ caption, post, userName , owner:req.user.userId});
+        const postSave = await postData.save();
+        const user = await User.findById(req.user.userId);
+        user.posts.push(postSave._id);
         await user.save();
         res.status(200).json({ success: true, post: postData });
     } catch (error) {
@@ -27,8 +27,9 @@ export const DeletePost = async(req , res)=>{
             message: "Post not found",
           });
         }
+        console.log(postn);
     
-        if (String(postn.owner) !== String(req.user._id)) {
+        if (String(postn.owner) !== String(req.user.userId)) {
           return res.status(401).json({
             success: false,
             message: "Unauthorized",
@@ -36,7 +37,7 @@ export const DeletePost = async(req , res)=>{
         }
         await postn.deleteOne();
     
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.userId);
         const index = user.posts.indexOf(req.params.id);
         user.posts.splice(index, 1);
         await user.save();
@@ -56,7 +57,8 @@ export const DeletePost = async(req , res)=>{
 export const updatecaption = async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
-  
+
+      
       if (!post) {
         return res.status(401).json({
           success: false,
@@ -64,7 +66,7 @@ export const updatecaption = async (req, res) => {
         });
       }
   
-      if (String(post.owner._id) !== String(req.user._id)) {
+      if (String(post.owner._id) !== String(req.user.userId)) {
         return res.status(401).json({
           success: false,
           message: "Unauthorized ",
@@ -91,12 +93,17 @@ export const likeunlikepost = async (req, res) => {
       if (!post) {
           return res.status(500).json({
           success: false,
-          message: "Post not found",
+          message: "Post not found", 
         });
       }
   
-      if (post.likes.includes(req.user._id)) {
-        const index = post.likes.indexOf(req.user._id);
+      let isTrue = false;
+      for(let i = 0 ; i<post.likes.length ;i++){
+          isTrue = (post.likes[i]._id == req.user.userId);
+      }
+
+      if (isTrue) {
+        const index = post.likes.indexOf(req.user.userId);
   
         post.likes.splice(index, 1);
         await post.save();
@@ -106,7 +113,7 @@ export const likeunlikepost = async (req, res) => {
           message: "Post Unliked",
         });
       } else {
-        post.likes.push(req.user._id);
+        post.likes.push(req.user.userId);
         await post.save();
 
         return res.status(200).json({
@@ -121,12 +128,12 @@ export const likeunlikepost = async (req, res) => {
       });
     }
 };
-
+ 
 export const followUnfollow = async (req, res) => {
     try {
       const userToFollow = await User.findById(req.params.id);
-      const loggedInUser = await User.findById(req.user._id);
-  
+      const loggedInUser = await User.findById(req.user.userId);
+      console.log(loggedInUser);
       if (!userToFollow) {
         return res.status(404).json({
           success: false,
@@ -136,7 +143,7 @@ export const followUnfollow = async (req, res) => {
   
       if (loggedInUser.following.includes(userToFollow._id)) {
         const indexfollowing = loggedInUser.following.indexOf(userToFollow._id);
-        const indexfollows = userToFollow.followers.indexOf(loggedInUser._id);
+        const indexfollows = userToFollow.followers.indexOf(loggedInUser.userId);
   
         loggedInUser.following.splice(indexfollowing, 1);
         userToFollow.followers.splice(indexfollows, 1);
@@ -170,7 +177,7 @@ export const followUnfollow = async (req, res) => {
 
 export const getPostFollowing = async (req, res) => {
     try {
-      const user = await User.findById(req.user._id);
+      const user = await User.findById(req.user.userId);
   
       const posts = await Post.find({
         owner: {
@@ -205,7 +212,7 @@ export const addcomment = async (req, res) => {
       let commentIndex = -1;
   
       post.comments.forEach((item, index) => {
-        if (String(item.user) === String(req.user._id)) {
+        if (String(item.user) === String(req.user.userId)) {
           commentIndex = index;
         }
       });
@@ -220,7 +227,7 @@ export const addcomment = async (req, res) => {
         });
       } else {
         post.comments.push({
-          user: req.user._id,
+          user: req.user.userId,
           comment: req.body.comment,
         });
         await post.save();
@@ -249,7 +256,7 @@ export const deleteComment = async (req, res) => {
         });
       }
   
-      if (String(post.owner) === String(req.user._id)) {
+      if (String(post.owner) === String(req.user.userId)) {
         if (req.body.comment_id == undefined) {
           return res.status(401).json({
             success: false,
@@ -264,7 +271,7 @@ export const deleteComment = async (req, res) => {
         });
       } else {
         post.comments.forEach((item, index) => {
-          if (String(item.user) === String(req.user._id)) {
+          if (String(item.user) === String(req.user.userId)) {
             return post.comments.splice(index, 1);
           }
         });
