@@ -8,3 +8,7 @@
 short topics
 1-splice(): remove elements from array using index no. and (index , from index);
 2-includes():- method returns true if an array contains a specified value.
+
+# Backend is almost done
+# start frontend with react
+ 
