@@ -7,13 +7,13 @@ import "./utils/hashPassword.js"
 import postRouter from "./routers/PostRoute.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/auth" , authRouter); 
+app.use("api/v1/auth" , authRouter); 
 app.use("/post" , postRouter); 
 
 
