@@ -2,7 +2,7 @@
 # Important Topics
 ## Short Topics
 1. `splice()`: Remove elements from an array using index numbers and/or range of indices.
-2. `includes()`: Check if an array contains a specified value and return `true` or `false`.
+2. `includes()`: Check if an array contains a specified value and return    `true` or `false`.
 ## Error Handler
 ## User Authentication with JWT and Random API Calls
 ## Redux and Context API for State Management
@@ -21,3 +21,7 @@ Start frontend development with React.
 6. Followers can directly access the posts they are following.
 7. Add comments to a post.
 8. Delete a comment.
+
+# Frontend Features
+1- Header section
+2- Login Page
