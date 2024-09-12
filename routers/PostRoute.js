@@ -9,7 +9,7 @@ router.delete("/deletepost/:id" , authenticateUser, DeletePost);
 router.put("/updatePost/:id" , authenticateUser, updatecaption);
 router.get("/likeUnlike/:id" , authenticateUser, likeunlikepost);
 router.get("/followunfollow/:id" , authenticateUser, followUnfollow);
-router.get("/followingpost" , authenticateUser, getPostFollowing);
+router.get("/followingpost" , getPostFollowing);
 router.post("/comment/:id" , authenticateUser, addcomment);
 router.delete("/deletecomment/:id" ,authenticateUser, deleteComment);
 export default router;  

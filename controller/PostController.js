@@ -177,19 +177,23 @@ export const followUnfollow = async (req, res) => {
 
 export const getPostFollowing = async (req, res) => {
     try {
-      const user = await User.findById(req.user.userId);
-  
+      const user = await User.findById('664f0085c66d5ab4bd5f2dc8');
+     
       const posts = await Post.find({
         owner: {
           $in: user.following,
         },
-      });
-  
+      }).populate({
+        path:"owner",
+        select:"name avatar"
+      })
+      console.log(posts)
       res.status(200).json({
         success: true,
         posts,
       });
     } catch (error) {
+      console.log(error)
       res.status(500).json({
         success: false,
         message: error.message,

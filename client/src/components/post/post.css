@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.post{
+   
+    display: flex;
+    justify-content: center;
+}
+.post .post-username{
+    padding-top: 10px;
+    
+}
+.post .container{
+    width: 500px;
+    height: 100vh;
+    padding: 10px;
+    border: 1px solid;
+    background-color: aliceblue;
+    position: fixed;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.post .container .single-post{
+    border: 1px solid;
+    margin: 5px 0;
+    border-radius: 8px;
+    background-color: rgba(220, 217, 217, 0.426);
+}
+.post-header{
+    display: flex;
+    padding: 5px;
+}
+.post-header img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right:5px ;
+}
+.post .post-image{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+.post .post-image img{
+    width: 300px;
+    height: 300px;
+}
+.post-actions{
+    height: 20px;
+    padding: 5px;
+}
+
+.post .container .post-add-comment input{
+    height: 30px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.post .container .post-comment-section{
+    padding: 10px;
+}
+
+.post .container .post-add-comment{
+    margin: 5px;
+}
+.post .container .post-add-comment .post-comment-submit{
+    height: 30px;
+    width: 55px;
+    padding: 5px;
+    margin: 0 5px;
+    border-radius: 4px;
+    border: 1px solid gray;
+    outline: none;
+}
