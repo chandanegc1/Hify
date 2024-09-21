@@ -22,9 +22,9 @@ const PostSchema = new mongoose.Schema({
     },
     likes:[
         {
-            userName:{
+            owner:{
                 type:mongoose.Schema.Types.ObjectId,
-                ref:"user"
+                ref:"Users"
             },
             createdAt:{
                 type:Date,
@@ -43,7 +43,7 @@ const PostSchema = new mongoose.Schema({
                 require:true,
             },
             createdAt:{
-                type:Date,
+                type:Date, 
                 default:Date.now,
             },
             like:{

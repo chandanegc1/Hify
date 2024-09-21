@@ -1,0 +1,12 @@
+.create-post{
+    padding: 20px;
+}
+
+.create-post .caption input{
+    height: 200px;
+    width: 400px;
+}
+
+.create-post .picture{
+    
+}

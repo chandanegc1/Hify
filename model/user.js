@@ -11,12 +11,18 @@ const UserSchema = mongoose.Schema({
     },
     email:{
         type:String,
-        require:[true , "please enter an email"],
+        require:true,
         unique:[true , "Email already exist"],
     },
     password:{
         type:String,
         require:[true , "please enter a password"],
+        minlength:[6 ,"Password must be at least 6 characters"],
+        select: false,
+    },
+    confirmPass:{
+        type:String,
+        require:[true , "please enter confirmation password"],
         minlength:[6 ,"Password must be at least 6 characters"],
         select: false,
     },
@@ -30,19 +36,19 @@ const UserSchema = mongoose.Schema({
     posts:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"post",
+            ref:"Posts",
         }
     ],
     followers:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"user",
+            ref:"Users",
         }
     ],
     following:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"user",
+            ref:"Users",
         }
     ],
     resetPasswordToken:String,

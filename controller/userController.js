@@ -6,15 +6,56 @@ import jwt from "jsonwebtoken";
 
 export const Registration = async(req , res)=>{
     try {
-        const {name , DOB , gender , email , password } = req.body;
-        let user = await User.findOne({email});
+        const {name , DOB , gender , email , password , confirmPass } = req.body;
 
+        if(!email){
+            return res
+            .status(400)
+            .json({
+                success: false,
+                message: "email required",
+            });
+        }
+        if(!name){
+            return res
+            .status(400)
+            .json({
+                success: false,
+                message: "name required",
+            });
+        }
+        if(!password){
+            return res
+            .status(400)
+            .json({
+                success: false,
+                message: " Password is required",
+            });
+        }
+        if(!confirmPass){
+            return res
+            .status(400)
+            .json({
+                success: false,
+                message: "confirmation Password is required",
+            });
+        }
+        if(!(password === confirmPass)){
+            return res
+            .status(400)
+            .json({
+                success: false,
+                message: "Password does not match",
+            });
+        }
+
+        let user = await User.findOne({email});
         if(user){
             return res
             .status(400)
             .json({
                 success: false,
-                message: "user alreasy exist",
+                message: "user already exist",
             });
         }
 

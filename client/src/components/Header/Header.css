@@ -20,7 +20,7 @@
     transform: scale(1.2);
   }
   
-  @media screen and (max-width: 600px) {
+ @media screen and (max-width: 600px) {
     .header > a {
       width: 8vw;
       height: 8vw;
@@ -29,5 +29,5 @@
     .header > a > svg {
       font-size: 8vw;
     }
-  }
+  } 
   

@@ -13,8 +13,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("api/v1/auth" , authRouter); 
-app.use("/post" , postRouter); 
+app.use("/api/v1/auth" , authRouter); 
+app.use("/api/v1/post" , postRouter); 
 
 
 app.listen(PORT , ()=>{

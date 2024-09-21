@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../Login/Login.css";
+import "./registration.css";
 import { Button, Typography , input} from "@mui/material";
 import { Link } from "react-router-dom";
 import {useDispatch} from "react-redux"
@@ -10,23 +10,21 @@ const Login = () => {
   const [email ,setEmail] = useState("")
   const [password , setPassword] = useState("")
   const dispatch = useDispatch();
+  const loginHandler = ()=>{
 
-  const loginHandler = (e) => {
-    console.log(email)
-    e.preventDefault();
-    dispatch(loginUser(email , password));
-
-  };
+  }
   return (
     <>
-      <div className="login">
+      <div className="Registration-form">
         <form action="" className="loginForm" onSubmit={loginHandler}>
           <Typography variant="h3" style={{ padding: "2vmax" }}>
-            Social Media
+            Registration
           </Typography>
 
-          <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required  placeholder="Email" />
-          <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password" />
+          <input type="text" value={""} onChange={(e)=>setEmail(e.target.value)} required  placeholder="Name..." />
+          <input type="text" value={""} onChange={(e)=>setPassword(e.target.value)} placeholder="Email..." />
+          <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required  placeholder="Password..." />
+          <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Confirm Password..." />
 
           <Link to="/forgot/password">
             <Typography>forgot Password </Typography>
@@ -34,7 +32,7 @@ const Login = () => {
           <Link to="/register">
             <Typography>New User?</Typography>
           </Link>
-          <button>Login</button>
+          <button>Register Now</button>
         </form>
       </div> 
     </>

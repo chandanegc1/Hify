@@ -4,12 +4,12 @@ import { authenticateUser } from "../middleware/authentication.js";
 
 const router = express.Router();
 
-router.post("/PostCreate" , authenticateUser, PostCreate);
-router.delete("/deletepost/:id" , authenticateUser, DeletePost);
-router.put("/updatePost/:id" , authenticateUser, updatecaption);
-router.get("/likeUnlike/:id" , authenticateUser, likeunlikepost);
-router.get("/followunfollow/:id" , authenticateUser, followUnfollow);
-router.get("/followingpost" , getPostFollowing);
-router.post("/comment/:id" , authenticateUser, addcomment);
-router.delete("/deletecomment/:id" ,authenticateUser, deleteComment);
+router.post("/postCreate/:id" , PostCreate);
+router.delete("/deletepost/:id" , DeletePost);
+router.put("/updatePost/:id", updatecaption);
+router.get("/likeUnlike/:id" , likeunlikepost);
+router.get("/followunfollow/:id" , followUnfollow);
+router.get("/followingpost/:id" , getPostFollowing);
+router.post("/comment/:id" , addcomment);
+router.delete("/deletecomment/:id" , deleteComment);
 export default router;  
